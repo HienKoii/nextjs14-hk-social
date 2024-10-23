@@ -1,0 +1,448 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --hFixed: 75px;
+  --wFixed: 300px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* Ẩn thanh cuộn */
+body::-webkit-scrollbar {
+  display: none; /* Ẩn thanh cuộn */
+}
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+p {
+  margin: 0;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+ul {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+/* custom css */
+.position-relative {
+  position: relative !important;
+}
+.position-absolute {
+  position: absolute;
+}
+
+/* Thêm kiểu cho các phần tử khác nếu cần */
+.dropdown-menu.show {
+  left: 140px;
+}
+
+.header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+.hk-fixed {
+  position: fixed;
+  width: inherit; /* Width sẽ được đặt bằng JS */
+}
+
+.bs-hk {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
+}
+.min-h-fixed {
+  min-height: var(--hFixed);
+}
+.mt-min-h-fixed {
+  margin-top: calc(var(--hFixed) + 12px);
+}
+.box-hk {
+  border-radius: 8px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+.border-t-hk {
+  border-top: 1px solid #e0e0e0; /* Đường viền màu xám */
+  padding-top: 8px; /* Thêm khoảng cách trên */
+}
+.hk-nav-after {
+  background-color: #00d2ff;
+  width: 25px;
+  height: 25px;
+  border-radius: 99999999px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hk-nav-after.hk-sm {
+  left: 0;
+  top: 0;
+}
+.hk-nav-after.hk-lg {
+  left: 45px;
+  bottom: 20px;
+}
+
+.divider-nav {
+  width: 100%;
+  position: absolute;
+  border: 2px solid var(--bs-primary);
+  color: var(--bs-primary);
+}
+.divider-nav.hk-lg {
+  bottom: -18px;
+}
+.divider-nav.hk-sm {
+  bottom: -8px;
+}
+.divider-hk {
+  position: absolute;
+  height: 100%;
+  border: 1px solid var(--bs-primary);
+  color: var(--bs-primary);
+  top: 0;
+  right: 0;
+}
+
+.hk-list-btn:hover {
+  background-color: var(--bs-secondary-bg-subtle);
+  border-radius: 5px;
+}
+
+.hk-sm.nav-item.dropdown > .dropdown-toggle.nav-link {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+
+.hk-custom.nav-item.dropdown > .dropdown-toggle.nav-link {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.no-caret .dropdown-toggle.nav-link::after {
+  display: none;
+}
+.hk-icon-faAngleDown {
+  position: absolute;
+
+  background-color: #00d2ff;
+  border-radius: 999999px;
+}
+.hk-icon-faAngleDown.hk-lg {
+  right: 0;
+  bottom: 0;
+}
+.hk-icon-faAngleDown.hk-sm {
+  left: 0;
+  bottom: 0;
+}
+
+.comments-modal .modal-header {
+  border-bottom: none;
+}
+
+.comments-modal .modal-body {
+  max-height: 400px; /* Giới hạn chiều cao để có thể cuộn */
+  overflow-y: auto; /* Thêm cuộn dọc nếu cần */
+}
+
+.comments-modal .modal-footer {
+  border-top: none; /* Bỏ đường viền trên của footer */
+}
+.hidden-scroll-y {
+  overflow-y: scroll; /* Cho phép cuộn */
+  -ms-overflow-style: none; /* Ẩn thanh cuộn trong IE và Edge */
+  scrollbar-width: none; /* Ẩn thanh cuộn trong Firefox */
+}
+
+.hidden-scroll-y::-webkit-scrollbar {
+  display: none; /* Ẩn thanh cuộn trong Chrome, Safari và Opera */
+}
+.hk-scrollbar.on {
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+/* scrollbar width */
+.hk-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* scrollbar track */
+.hk-scrollbar::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* scrollbar handle */
+.hk-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: #00d2ff;
+  background-image: linear-gradient(to top, #00d2ff 0%, #3a7bd5 100%);
+}
+.offcanvas.offcanvas-start.hk {
+  width: 300px !important;
+}
+
+.hk-custom-btn {
+  position: relative;
+}
+
+/*  */
+.left.show.dropdown > .dropdown-menu.show {
+  transform: translate3d(-144px, 33.6px, 0px) !important;
+}
+/* //// */
+.reaction-popup {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  top: -47px;
+  left: -6px;
+  background-color: var(--bs-btn-hover-border-color);
+  padding: 4px;
+  border-radius: 99px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reaction-popup .reaction-img {
+  transition: transform 0.2s ease;
+}
+
+.reaction-popup .reaction-img:hover {
+  transform: translateY(-50%);
+}
+
+/* Khi popup hiển thị */
+button:hover .reaction-popup {
+  opacity: 1;
+  transform: translateY(0); /* Đưa popup về vị trí ban đầu */
+}
+
+/*  */
+.fade-tooltip {
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.fade-tooltip.show {
+  opacity: 1;
+}
+
+.hk.nav-tabs .nav-item .nav-link {
+  color: #171717;
+}
+.hk.nav-tabs .nav-item .nav-link.active {
+  color: var(--bs-link-color);
+}
+.btn-hk-reaction {
+  padding: 0;
+  transition: color 0.3s ease;
+}
+.btn-hk-reaction:disabled {
+  border: none;
+}
+
+.hk-replies:hover {
+  text-decoration: underline;
+}
+.available {
+  display: none;
+}
+.available.show {
+  display: inline;
+  position: absolute;
+  top: -49px;
+  right: -12px;
+  min-width: 300px;
+}
+.available-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(233, 236, 239);
+  gap: 6px;
+  padding: 6px 0;
+  border-radius: 40px;
+  border: 1px solid rgb(206, 212, 218);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.available-wrapper.show {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.hk.nav-item .nav-link.active {
+  border-radius: 26px;
+  opacity: 1;
+}
+.hk.nav-item .nav-link {
+  border-radius: 26px;
+}
+.hk-icon {
+  display: block;
+  cursor: pointer;
+}
+.hk-icon:hover {
+  opacity: 0.3;
+}
+
+.no-caret::after {
+  display: none;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: white;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.img-wrapper-item {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.img-wrapper-item.background {
+  width: 420px;
+}
+.images-avatar {
+  object-fit: cover;
+}
+.hk.rounded.images-avatar {
+  min-height: 180px;
+  border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0 !important;
+}
+.object-fit-cover {
+  object-fit: cover !important;
+}
+.list-group-item > .hk-sm {
+  padding: 4px !important;
+}
+.list-group-item > .hk-xl {
+  padding: 12px !important;
+  gap: 12px;
+}
+.cursor-pointer {
+  cursor: pointer !important;
+}
+.hk-fa-arrowLeft {
+  height: 40px;
+  width: 45px;
+  border-radius: 999999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hk-fa-arrowLeft:hover {
+  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+}
+.hk-message {
+  position: absolute;
+  overflow: hidden;
+  z-index: 1;
+  top: 0;
+  right: 0;
+}
+
+.hk-message-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hk-mess-header {
+  display: flex;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+.hk-message-main {
+  width: 100%;
+  flex: 1;
+  height: 100vh;
+}
+.hk-msg-item {
+  display: flex;
+}
+.hk-msg-item:hover .hk-msg-dropdown {
+  opacity: 0.8;
+}
+.hk-mess-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hk-msg-dropdown {
+  opacity: 0;
+  cursor: pointer;
+  margin-right: 6px;
+}
+.hk-msg-dropdown:hover {
+  opacity: 0.8;
+}
+.dropdown-toggle.show.hk-msg-dropdown {
+  opacity: 0.8;
+}
+/* class của thư viện */
+.rce-avatar {
+  object-fit: cover;
+}
+.custom-message-box.hk-photo img {
+  width: 300px !important;
+  height: auto;
+  object-fit: cover;
+  cursor: pointer;
+}
+.rce-container-mbox.custom-message-box {
+  min-width: unset !important;
+}
+.custom-message-box.hk-text-deleted .rce-mbox-text {
+  font-style: italic;
+  font-weight: bold;
+}
+/* css me */
+.hk-center {
+  display: flex;
+  align-items: center;
+}

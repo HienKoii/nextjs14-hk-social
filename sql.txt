@@ -1,0 +1,125 @@
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    profile_pic VARCHAR(255), -- Ảnh đại diện
+    avatar VARCHAR(255), -- Ảnh đại diện
+    bg VARCHAR(255), -- ảnh bài
+    fullName VARCHAR(100) NOT NULL, -- Tên đầy đủ
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE password_resets (
+  email VARCHAR(255) NOT NULL,
+  token VARCHAR(255) NOT NULL,
+  expires_at DATETIME NOT NULL,
+  PRIMARY KEY (email)
+);
+CREATE TABLE friends (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    friend_id INT NOT NULL,
+    status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (friend_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY (user_id, friend_id) -- Đảm bảo quan hệ kết bạn là duy nhất
+);
+
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    images JSON,
+    status TINYINT NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL, -- Nội dung bình luận
+    like INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE TABLE comment_reactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    comment_id INT NOT NULL, -- ID của bình luận mà cảm xúc được thả vào
+    user_id INT NOT NULL,    -- ID của người dùng thả cảm xúc
+    type ENUM('like', 'love', 'haha', 'wow', 'sad', 'angry', 'lovelove') NOT NULL, -- Thêm loại 'lovelove' vào danh sách
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE reactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    type ENUM('like', 'love', 'haha', 'wow', 'sad', 'angry') NOT NULL, -- Các loại cảm xúc
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY (post_id, user_id) -- Đảm bảo mỗi người chỉ thả 1 cảm xúc trên 1 bài viết
+);
+CREATE TABLE messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sender_id INT NOT NULL,          -- Người gửi
+  receiver_id INT NOT NULL,        -- Người nhận
+  content TEXT NOT NULL,           -- Nội dung tin nhắn
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (sender_id) REFERENCES users(id),
+  FOREIGN KEY (receiver_id) REFERENCES users(id)
+);
+ALTER TABLE messages ADD COLUMN is_deleted BOOLEAN DEFAULT FALSE;
+
+
+CREATE TABLE friend_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sender_id INT NOT NULL,
+    receiver_id INT NOT NULL,
+    status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending', -- Trạng thái lời mời kết bạn
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY (sender_id, receiver_id) -- Đảm bảo mỗi người chỉ gửi 1 lời mời cho 1 người
+);
+
+CREATE TABLE conversations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user1_id INT NOT NULL,
+    user2_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user1_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (user2_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY (user1_id, user2_id) -- Đảm bảo chỉ có một cuộc hội thoại giữa hai người
+);
+CREATE TABLE conversation_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    conversation_id INT NOT NULL,
+    sender_id INT NOT NULL,
+    content TEXT NOT NULL, -- Nội dung tin nhắn
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (conversation_id) REFERENCES conversations(id) ON DELETE CASCADE,
+    FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE TABLE notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL, -- Người nhận thông báo
+    actor_id INT NOT NULL, -- Người thực hiện hành động (người gửi lời mời, thả cảm xúc, bình luận, v.v.)
+    post_id INT DEFAULT NULL, -- Bài viết liên quan (nếu có)
+    comment_id INT DEFAULT NULL, -- Bình luận liên quan (nếu có)
+
+    is_read BOOLEAN DEFAULT FALSE, -- Trạng thái đã đọc hay chưa
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Thời gian thông báo được tạo
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, -- Liên kết với bảng users
+    FOREIGN KEY (actor_id) REFERENCES users(id) ON DELETE CASCADE, -- Liên kết với bảng users
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE, -- Liên kết với bảng posts
+    FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE -- Liên kết với bảng comments
+);
+ALTER TABLE notifications 
+ADD COLUMN status ENUM('sent', 'accepted', 'rejected') DEFAULT 'sent';
