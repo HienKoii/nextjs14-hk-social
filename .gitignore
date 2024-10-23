@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# git remote add origin https://github.com/HienKoii/nextjs14-hk-social.git
+# git branch -M main
+# git push -u origin main
