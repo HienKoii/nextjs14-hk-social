@@ -124,7 +124,7 @@ export default function PostsItem({ post }) {
           <ShowMoreText className={"px-4"} moreText={"Xem thêm"} lessText={"Ẩn bớt"} anchorClass="text-muted">
             <div dangerouslySetInnerHTML={{ __html: formatContent(post.content) }} />
           </ShowMoreText>
-          {post.images.length > 0 && renderImages(post.images, post.id)}
+          {post?.images?.length > 0 && renderImages(post?.images, post.id)}
 
           <div className="d-flex justify-content-between my-3 px-4">
             <div className="d-flex justify-content-center align-items-center">

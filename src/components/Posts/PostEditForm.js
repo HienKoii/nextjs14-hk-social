@@ -56,7 +56,7 @@ export default function PostEditForm({ post, showEditModal, handleCloseEditModal
             </Form.Group>
           </Form>
           <div className="image-grid">
-            {JSON.parse(post.images).map((imgSrc, index) => (
+            {JSON.parse(post?.images)?.map((imgSrc, index) => (
               <div key={index} className="image-item">
                 <Image src={`/uploads/posts/${imgSrc}`} alt={`image-${index}`} className="image" />
               </div>

@@ -6,7 +6,7 @@ export const db = mysql.createPool({
   password: process.env.DTB_PASSWORD,
   database: process.env.DTB_NAME,
   waitForConnections: true,
-  connectionLimit: 9999, // Giới hạn kết nối
+  connectionLimit: 50, // Giới hạn kết nối
   queueLimit: 0,
 });
 
